@@ -1,0 +1,22 @@
+version: '2.2'
+services:
+    evtx-to-elastic:
+        image: evtx-to-elastic
+        container_name: evtx-to-elastic
+        environment:
+            - PRIMARY_INGEST_NODE=elasticsearch:9200
+            - SECONDARY_INGEST_NODE=elasticsearch2:9200
+            - TERTIARY_INGEST_NODE=es:9203
+            - EVTX_INDEX=offline_winevt
+            - LOG_BUFFER_SIZE=500
+        volumes:
+            - evtx-monitor:/app/evtx-monitor
+
+volumes:
+    evtx-monitor:
+        driver: local
+
+networks:
+    default:
+        external:
+            name: elasticsearch_esnet
